@@ -5,7 +5,7 @@ const images = require('../helpers/images')
 
 /* GET home page. */
 router.get("/", function(req, res) {
-	res.send("This Api Works!");
+	res.send("Welcome to home!");
 });
 router.post('/signup', userController.registerUser)
 router.post('/login', userController.login)

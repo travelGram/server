@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken')
 
 class UserController {
   static registerUser(req, res){
-    console.log(req.body);
     if (req.body.password === undefined || req.body.password.length === 0) {
       res.status(400).json({message: 'password is required'})
     }
@@ -15,12 +14,10 @@ class UserController {
       password: hashedPassword
     })
     .then(user=>{
-      console.log(user);
       const tokenUser = jwt.sign({
         id: user._id,
         email: user.email
       }, process.env.JWT_SECRET_KEY)
-      console.log(tokenUser);
       res.status(200).json({message: 'user successfully registered!', data: { token: tokenUser, userId: user._id, email: user.email }})
     })
     .catch(err=>{
@@ -30,7 +27,6 @@ class UserController {
   static getUsers(req, res){
     User.find({})
     .then(users=>{
-      // console.log(users);
       if (users.length === 0) {
         res.status(404).json({message: 'no users found!',data: users})
       }else {
@@ -44,7 +40,6 @@ class UserController {
   static getOneUser(req, res){
     User.findOne({ _id: req.params.id })
     .then(user=>{
-      // console.log(user);
       res.status(200).json({message: 'User successfully retrived',data: user})
     })
     .catch(err=>{
@@ -82,17 +77,13 @@ class UserController {
     User.findOne({ email: req.body.email})
     .then(user => {
       const passwordCheck = bcrypt.compareSync(req.body.password, user.password)
-      // console.log(user.password);
-      // console.log(passwordCheck);
       if (passwordCheck) {
         const tokenUser = jwt.sign({
           id: user._id,
           name: user.name,
           email: user.email
         }, process.env.JWT_SECRET_KEY)
-        // console.log(tokenUser);
         res.status(200).json({token: tokenUser, userId: user._id, name: user.name, email: user.email })
-        // req.headers.token = tokenUser
       }else {
         res.status(400).json({message: 'wrong password'})
       }

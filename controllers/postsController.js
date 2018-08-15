@@ -2,14 +2,12 @@ const Post = require('../models/post')
 
 class PostController {
   static addPost(req, res){
-    console.log(req.body);
     Post.create({
       imageUrl: req.body.imageUrl,
       caption: req.body.caption,
       uploader: req.body.uploader
     })
     .then(post=>{
-      console.log(post);
       res.status(200).json({message: 'post successfully saved!', data: { imageUrl: post.imageUrl, caption: post.caption, uploader: post.uploader }})
     })
     .catch(err=>{
@@ -19,7 +17,6 @@ class PostController {
   static getPosts(req, res){
     Post.find({})
     .then(posts=>{
-      // console.log(posts);
       if (posts.length === 0) {
         res.status(404).json({message: 'no posts found!',data: posts})
       }
@@ -32,7 +29,6 @@ class PostController {
   static getOnePost(req, res){
     Post.findOne({ _id: req.params.id })
     .then(post=>{
-      // console.log(post);
       res.status(200).json({message: 'Post successfully retrived!',data: post})
     })
     .catch(err=>{
