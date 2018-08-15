@@ -40,9 +40,9 @@ class PostController {
     })
   }
   static getPostByUploader(req, res){
-    Post.findOne({ uploader: req.params.id })
+    Post.find({ uploader: req.params.userId })
     .then(posts=>{
-      // console.log(post);
+      console.log(posts);
       res.status(200).json({message: 'Post(s) successfully retrived!',data: posts})
     })
     .catch(err=>{
