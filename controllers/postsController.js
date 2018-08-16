@@ -1,11 +1,14 @@
 const Post = require('../models/post')
+const jwt = require('jsonwebtoken')
 
 class PostController {
   static addPost(req, res){
+    var decoded = jwt.verify(req.body.token, process.env.JWT_SECRET_KEY)
+    res.status(200).json({decoded})
     Post.create({
       imageUrl: req.body.imageUrl,
       caption: req.body.caption,
-      uploader: req.body.uploader
+      uploader: decoded.id
     })
     .then(post=>{
       res.status(200).json({message: 'post successfully saved!', data: { imageUrl: post.imageUrl, caption: post.caption, uploader: post.uploader }})

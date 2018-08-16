@@ -5,7 +5,9 @@ var cors = require("cors");
 require("dotenv").config();
 
 const mongoose = require("mongoose");
-mongoose.connect(`mongodb://${process.env.MLAB_USER}:${process.env.MLAB_PASS}@ds121382.mlab.com:21382/travel-gram`,{ useNewUrlParser: true });
+mongoose.connect(`mongodb://travelgram:travel123@ds121382.mlab.com:21382/travel-gram`,{ useNewUrlParser: true });
+
+// console.log(`mongodb://${process.env.MLAB_USER}:${process.env.MLAB_PASS}@ds121382.mlab.com:21382/travel-gram`);
 
 let indexRoutes = require("./routes/index");
 let usersRoutes = require("./routes/users");
